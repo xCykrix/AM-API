@@ -1,0 +1,17 @@
+{
+  "version": "3",
+  "redirects": {
+    "https://esm.sh/@drashland/drash/modules/chains/RequestChain/mod.native.js": "https://esm.sh/@drashland/drash@3.0.0-beta.2/modules/chains/RequestChain/mod.native.js",
+    "https://esm.sh/@drashland/drash/standard/handlers/RequestValidator.js": "https://esm.sh/@drashland/drash@3.0.0-beta.2/standard/handlers/RequestValidator.js"
+  },
+  "remote": {
+    "https://esm.sh/@drashland/drash@3.0.0-beta.2/modules/chains/RequestChain/mod.native.js": "fd55fdf388f86a1c76512c94c3ac248e8fe28221839ed9977efeca328c6a9778",
+    "https://esm.sh/@drashland/drash@3.0.0-beta.2/standard/handlers/RequestValidator.js": "8e6fcf0633681d6dc532b3ebb242f2e0267a617e31be1c02371dc9dcc6c59bbc",
+    "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/denonext/modules/chains/RequestChain/mod.native.js": "96e172fc318d7d049b28db682a73cec5258b56608b5a074d86ba257a8916abe0",
+    "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/denonext/standard/handlers/RequestValidator.js": "8235d814142b8108919dd8d00ce19c4af7e3cd3ad18a84363350930e2623821c",
+    "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/denonext/standard/http/ResourceGroup.js": "153420a5b5ae2e399b4e2f5a67cab2767dcc3a922715b18d98aeb8998cae9ad7",
+    "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/modules/chains/RequestChain/mod.native.js": "fd55fdf388f86a1c76512c94c3ac248e8fe28221839ed9977efeca328c6a9778",
+    "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/standard/handlers/RequestValidator.js": "8e6fcf0633681d6dc532b3ebb242f2e0267a617e31be1c02371dc9dcc6c59bbc",
+    "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/standard/http/ResourceGroup.js": "67bc12343a216c64defc092c21b57c9777b104ec34530a2560fa49e373f5c919"
+  }
+}
