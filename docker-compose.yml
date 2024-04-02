@@ -9,3 +9,11 @@ services:
     restart: unless-stopped
     ports:
       - "4000:4000"
+  am-mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: RBX1Station
+    ports:
+      - "3306:3306"

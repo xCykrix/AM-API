@@ -1,12 +1,17 @@
-import {
-  Chain,
-  Resource,
-} from "https://esm.sh/@drashland/drash/modules/chains/RequestChain/mod.native.js";
+import { Bundler } from "./lib/bundler.ts";
 import { Chains } from "./lib/chains.ts";
-import { Bundled } from "./lib/resources/api-base.resource.ts";
+import { Connector } from "./lib/database/connector.ts";
 
+// Load Database
+await Connector.connect();
+await Connector.client.execute(`
+  USE am_api;
+`)
+
+// Load Resource and Middleware Chains
 Chains.add(
-  Chains.hone().resources(...Bundled).pathPrefixes("/api/v1", "/api/latest"),
+  Chains.defaults(Chains.hone().resources(...Bundler.get('open'))),
+  // Chains.defaults(Chains.hone().resources(...Bundler.get('authenticated')))
 );
 Chains.finalize();
 
@@ -30,11 +35,10 @@ Deno.serve({
         if (request.url.includes("favicon")) {
           return new Response();
         }
-
         // Handle Group 404.
         if (error.status_code === 404) {
             return new Response(
-                "Oops! This page was not found. Please verify the URL is correct or report an issue to us!",
+                "Oops! This page was not found. Please verify the url is correct and try again, or report an issue to us!",
                 {
                     status: 404,
                     statusText: "Not Found",

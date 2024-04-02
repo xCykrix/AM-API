@@ -7,15 +7,20 @@ import { Builder } from "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/stand
 export class Chains {
   private static chain: RequestValidator;
   private static builder = Chain.builder();
-  private static resources: Resource[] = [];
 
   public static hone(): Builder {
     return Resource.group();
   }
 
+  public static defaults(builder: Builder): Builder {
+    return builder.pathPrefixes('/api')
+  }
+
   public static add(...builders: Builder[]): void {
+    const resources: (typeof Resource)[] = [];
     for (const builder of builders) {
-      this.builder.resources(builder.build());
+      resources.push(...builder.build())
+      this.builder.resources(...builder.build());
     }
   }
 
