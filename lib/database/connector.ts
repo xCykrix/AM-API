@@ -1,16 +1,22 @@
-import { Client, configLogger } from "https://deno.land/x/mysql@v2.12.1/mod.ts";
-await configLogger({ enable: false });
-export class Connector {
-  public static client: Client = new Client();
+import { kvdex } from '../../deps.ts';
+import { ImageModel } from './transactions/image.ts';
+import { UserModel } from './transactions/user.ts';
 
-  public static async connect(): Promise<void> {
-    await configLogger({ enable: false });
-    this.client = await this.client.connect({
-      hostname: '192.168.68.61',
-      username: 'root',
-      password: 'RBX1Station',
-      db: 'am_api',
-      poolSize: 2,
-    });
-  }
-}
+await Deno.mkdir('./persistence/', { recursive: true });
+
+export const kv = await Deno.openKv('./persistence/local-storage.kv');
+export const database = kvdex.kvdex(kv, {
+  users: kvdex.collection(UserModel, {
+    history: true,
+    indices: {
+      eid: 'primary',
+      token: 'primary'
+    }
+  }),
+  image: kvdex.collection(ImageModel, {
+    indices: {
+      rid: 'primary',
+      iid: 'primary',
+    }
+  }),
+});

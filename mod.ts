@@ -1,59 +1,37 @@
-import { Bundler } from "./lib/bundler.ts";
-import { Chains } from "./lib/chains.ts";
-import { Connector } from "./lib/database/connector.ts";
+import { HTTPError } from './deps.ts';
+import * as env from './env.json' with { type: 'json' };
+import { Chains } from './lib/chains.ts';
+import { jsonHTTPResponse } from './lib/util/json.ts';
 
-// Load Database
-await Connector.connect();
-await Connector.client.execute(`
-  USE am_api;
-`)
+// Load Deno KV
+await Deno.mkdir('./persistence/', { recursive: true });
 
 // Load Resource and Middleware Chains
-Chains.add(
-  Chains.defaults(Chains.hone().resources(...Bundler.get('open'))),
-  // Chains.defaults(Chains.hone().resources(...Bundler.get('authenticated')))
-);
+await Chains.link();
 Chains.finalize();
 
-// Define server variables for reuse below
-const hostname = "localhost";
-const port = 4000;
-
-// Listen
+// Serve to Deno Handler.
 Deno.serve({
-  hostname,
-  port,
+  hostname: env.default.server.hostname,
+  port: env.default.server.port,
   onListen: ({ hostname, port }) => {
     console.log(`AM-API @ http://${hostname}:${port}`);
   },
-  handler: (request: Request): Promise<Response> => {
-    // Pass the request to the chain
-    return Chains.get()
-      .handle<Response>(request)
-      .catch((error) => {
-        // Handle favicon Loads.
-        if (request.url.includes("favicon")) {
-          return new Response();
-        }
-        // Handle Group 404.
-        if (error.status_code === 404) {
-            return new Response(
-                "Oops! This page was not found. Please verify the url is correct and try again, or report an issue to us!",
-                {
-                    status: 404,
-                    statusText: "Not Found",
-                }
-            );
-        }
+  handler: async (request: Request): Promise<Response> => {
+    try {
+      return await Chains
+        .get()
+        .handle<Response>(request);
+    } catch (error: unknown) {
+      if (request.url.includes('favicon')) {
+        return new Response();
+      }
 
-        // Fallback Error.
-        return new Response(
-          "Sorry, but we hit an error! Please try this request again or report an issue to us!",
-          {
-            status: 500,
-            statusText: "Internal Server Error",
-          },
-        );
-      });
+      if ((error as HTTPError).status_code === 404) {
+        return jsonHTTPResponse(404, 'Routing Failed');
+      }
+
+      return jsonHTTPResponse(500, 'Internal Server Error');
+    }
   },
 });

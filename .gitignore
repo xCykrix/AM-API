@@ -1,3 +1,2 @@
-./cache/
-./var/
-./.env
+env.json
+persistence/

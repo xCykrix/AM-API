@@ -1,30 +1,24 @@
-
-import { Resource } from "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/modules/chains/RequestChain/mod.native.js";
-import { Chain } from "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/modules/chains/RequestChain/mod.native.js";
-import { RequestValidator } from "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/standard/handlers/RequestValidator.js";
-import { Builder } from "https://esm.sh/v135/@drashland/drash@3.0.0-beta.2/standard/http/ResourceGroup.js";
+import { Chain, RequestValidator, Resource } from '../deps.ts';
 
 export class Chains {
   private static chain: RequestValidator;
   private static builder = Chain.builder();
+  private static resources: (typeof Resource)[] = [];
 
-  public static hone(): Builder {
-    return Resource.group();
-  }
-
-  public static defaults(builder: Builder): Builder {
-    return builder.pathPrefixes('/api')
-  }
-
-  public static add(...builders: Builder[]): void {
-    const resources: (typeof Resource)[] = [];
-    for (const builder of builders) {
-      resources.push(...builder.build())
-      this.builder.resources(...builder.build());
+  public static async link(): Promise<void> {
+    for (const resourcef of Deno.readDirSync('./lib/resources/')) {
+      if (!resourcef.isFile) continue;
+      // deno-lint-ignore no-await-in-loop
+      Chains.add((await import(`./resources/${resourcef.name}`)).group);
     }
   }
 
+  public static add(...builders: (typeof Resource)[]): void {
+    this.resources.push(...builders);
+  }
+
   public static finalize(): void {
+    this.builder.resources(...this.resources);
     this.chain = this.builder.build();
   }
 
