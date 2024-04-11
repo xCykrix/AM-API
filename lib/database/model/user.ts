@@ -8,6 +8,12 @@ export type User = {
   authorization: 'BASIC' | 'SUPPORT' | 'SUPERUSER';
 };
 
-export const UserModel = kvdex.model<User>();
-
+export const UserCollection = kvdex.collection(kvdex.model<User>(), {
+  history: true,
+  indices: {
+    eid: 'primary',
+    token: 'primary'
+  },
+  serialize: 'json',
+})
 

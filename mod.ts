@@ -28,7 +28,7 @@ Deno.serve({
       }
 
       if ((error as HTTPError).status_code === 404) {
-        return jsonHTTPResponse(404, 'Routing Failed');
+        return jsonHTTPResponse(404, 'Internal Endpoint Failure');
       }
 
       return jsonHTTPResponse(500, 'Internal Server Error');

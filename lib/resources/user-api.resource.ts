@@ -31,7 +31,6 @@ class UserRegister extends Resource {
       );
     }
 
-    // TODO(@xCykrix): Verify Optimizations
     // Hash Password to SHA-512 by 500 Iterables.
     let phash: BufferSource = new TextEncoder().encode(
       data.get('password')?.toString(),
