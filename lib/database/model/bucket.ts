@@ -14,5 +14,4 @@ export const BucketCollection = kvdex.collection(kvdex.model<Bucket>(), {
     iid: 'primary',
   },
   serialize: 'json',
-})
-
+});

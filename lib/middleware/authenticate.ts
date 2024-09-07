@@ -6,7 +6,7 @@ import { AuthenticatedRequest } from '../util/request.ts';
 export class Authenticate extends Middleware {
   public override async ALL(request: AuthenticatedRequest): Promise<unknown> {
     const authentication: string = request.headers.get('Authentication')?.toString() ?? 'NID:NID';
-    const user = await database.users.findByPrimaryIndex("token", authentication);
+    const user = await database.users.findByPrimaryIndex('token', authentication);
     if (!user) return jsonHTTPResponse(401, 'Unauthorized or Revoked');
 
     // Apply User to Request

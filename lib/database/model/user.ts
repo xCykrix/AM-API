@@ -12,7 +12,7 @@ export const UserCollection = kvdex.collection(kvdex.model<User>(), {
   history: true,
   indices: {
     eid: 'primary',
-    token: 'primary'
+    token: 'primary',
   },
   serialize: 'json',
 });
