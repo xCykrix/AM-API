@@ -1,5 +1,4 @@
-import { encodeHex } from 'https://deno.land/std@0.221.0/encoding/hex.ts';
-import { Resource, ulid } from '../../deps.ts';
+import { hex, Resource, ulid } from '../../deps.ts';
 import * as env from '../../env.json' with { type: 'json' };
 import { database } from '../database/connector.ts';
 import { Authenticate } from '../middleware/authenticate.ts';
@@ -39,8 +38,8 @@ class UserRegister extends Resource {
       // deno-lint-ignore no-await-in-loop
       phash = await crypto.subtle.digest('SHA-512', phash);
     }
-    const hash = encodeHex(phash as ArrayBuffer);
-    const ehash = encodeHex(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(data.get('eid')!.toString())));
+    const hash = hex.encodeHex(phash as ArrayBuffer);
+    const ehash = hex.encodeHex(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(data.get('eid')!.toString())));
     const token = `${ehash}:1.${getRandomString(12)}.${getRandomString(12)}.${getRandomString(12)}`;
 
     // Insert User into Database
@@ -80,7 +79,7 @@ class UserRegenerateToken extends Resource {
   public override paths: string[] = ['/api/user/regenerate-token'];
 
   public override async PUT(request: AuthenticatedRequest): Promise<Response> {
-    const ehash = encodeHex(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(request.user.eid)));
+    const ehash = hex.encodeHex(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(request.user.eid)));
     const token = `${ehash}:1.${getRandomString(12)}.${getRandomString(12)}.${getRandomString(12)}`;
 
     // Upsert to User

@@ -15,5 +15,4 @@ export const UserCollection = kvdex.collection(kvdex.model<User>(), {
     token: 'primary'
   },
   serialize: 'json',
-})
-
+});
