@@ -1,0 +1,11 @@
+#!/usr/bin/env nu
+# git-hook: pre-commit
+
+use std log;
+
+def main [0?: string, 1?: string] {
+  log info "run-hook: pre-commit";
+
+  # Default Hook Error
+  log warning "hook not configured";
+}
