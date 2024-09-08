@@ -8,7 +8,6 @@ export class Chains {
   public static async link(): Promise<void> {
     for (const f of Deno.readDirSync('./lib/resources/')) {
       if (!f.isFile) continue;
-      // deno-lint-ignore no-await-in-loop
       Chains.add((await import(`./resources/${f.name}`)).group);
     }
   }

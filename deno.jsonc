@@ -44,7 +44,6 @@
         "eqeqeq",
         "explicit-function-return-type",
         "explicit-module-boundary-types",
-        "no-await-in-loop",
         "no-const-assign",
         "no-eval",
         "no-undef",

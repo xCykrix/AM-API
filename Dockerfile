@@ -6,8 +6,6 @@ USER deno
 
 # Expose Bindable Ports. Remapped via docker-compose.yml.
 EXPOSE 4000/tcp
-EXPOSE 4001/tcp
-EXPOSE 4002/tcp
 
 # Compile Dependencies and Main Application
 COPY . .
