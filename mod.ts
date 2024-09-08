@@ -15,7 +15,7 @@ Deno.serve({
   hostname: env.default.server.hostname,
   port: env.default.server.port,
   onListen: ({ hostname, port }) => {
-    console.log(`AM-API @ http://${hostname}:${port}`);
+    console.log(`Name: AM-API; Hostname: ${hostname}; Port: ${port};`);
   },
   handler: async (request: Request): Promise<Response> => {
     try {

@@ -35,7 +35,6 @@ class UserRegister extends Resource {
       data.get('password')?.toString(),
     );
     for (let i = 0; i < 500; i++) {
-      // deno-lint-ignore no-await-in-loop
       phash = await crypto.subtle.digest('SHA-512', phash);
     }
     const hash = hex.encodeHex(phash as ArrayBuffer);
